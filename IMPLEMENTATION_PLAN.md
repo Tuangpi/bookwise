@@ -12,7 +12,7 @@ Phase 0 (Bootstrap) and Phase 1 (Auth + Tenancy) implemented. Phase 2 partially 
 - Phase 1 — Foundation & Multi-tenancy: DONE (auth, JWT, tenant middleware, RBAC, Zod)
 - Phase 2 — Business Management: DONE (business profile, services CRUD, opening hours)
 - Phase 3 — Staff Management: DONE (staff CRUD + service links, working hours)
-- Phase 4 — Availability Engine: TODO
+- Phase 4 — Availability Engine: DONE (compute slots from opening/working hours, services, staff-service links, existing bookings, and time-offs)
 - Phase 5 — Customer Management: TODO
 - Phase 6 — Booking Flow: TODO
 - Phase 7 — Calendar: TODO

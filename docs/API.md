@@ -45,3 +45,12 @@ Replace the full weekly schedule in one transaction. `breaks` are optional and m
 - `dayOfWeek`: 0 (Sun) – 6 (Sat), must be unique within the request
 - `startTime`/`endTime`: `HH:MM`, `endTime` after `startTime`
 - Omitting a day means closed that day
+
+## Availability
+- GET /api/v1/availability
+  - Returns available time slots for a service on a given date
+  - Query parameters:
+    - `serviceId` (required): The service ID
+    - `date` (required): Date in YYYY-MM-DD format
+    - `staffId` (optional): Filter by specific staff member
+  - Response: `{ success: true, data: { date, serviceId, serviceName, durationMin, staff: [{ staffId, staffName, slots: [{ startAt, endAt }] }] } }`
