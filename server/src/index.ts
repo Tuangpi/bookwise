@@ -9,6 +9,7 @@ import { businessRouter } from './modules/business/business.routes';
 import { serviceRouter } from './modules/service/service.routes';
 import { staffRouter } from './modules/staff/staff.routes';
 import { availabilityRouter } from './modules/availability/availability.routes';
+import { customerRouter } from './modules/customer/customer.routes';
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/api/v1/business', businessRouter);
 app.use('/api/v1/services', serviceRouter);
 app.use('/api/v1/staff', staffRouter);
 app.use('/api/v1/availability', availabilityRouter);
+app.use('/api/v1/customers', customerRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Route not found' } });
