@@ -14,7 +14,7 @@ Phase 0 (Bootstrap) and Phase 1 (Auth + Tenancy) implemented. Phase 2 partially 
 - Phase 3 — Staff Management: DONE (staff CRUD + service links, working hours)
 - Phase 4 — Availability Engine: DONE (compute slots from opening/working hours, services, staff-service links, existing bookings, and time-offs)
 - Phase 5 — Customer Management: TODO
-- Phase 6 — Booking Flow: TODO
+- Phase 6 — Booking Flow: **DONE**
 - Phase 7 — Calendar: TODO
 - Phase 8 — Notifications: TODO
 - Phase 9 — Dashboard & Reports: TODO (basic UI shell)
