@@ -16,3 +16,18 @@ export async function updateMe(req: AuthRequest, res: Response, next: NextFuncti
     res.json({ success: true, data: b });
   } catch (e) { next(e); }
 }
+
+export async function getHours(req: AuthRequest, res: Response, next: NextFunction) {
+  try {
+    const items = await svc.getBusinessHours(req.businessId!);
+    res.json({ success: true, data: items });
+  } catch (e) { next(e); }
+}
+
+export async function setHours(req: AuthRequest, res: Response, next: NextFunction) {
+  try {
+    const { body } = (req as any).validated ?? { body: req.body };
+    const items = await svc.setBusinessHours(req.businessId!, body.hours);
+    res.json({ success: true, data: items });
+  } catch (e) { next(e); }
+}

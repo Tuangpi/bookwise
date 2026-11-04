@@ -10,8 +10,8 @@ Phase 0 (Bootstrap) and Phase 1 (Auth + Tenancy) implemented. Phase 2 partially 
 
 - Phase 0 — Project Bootstrap: DONE (monorepo, tooling, Prisma, Vite, Express)
 - Phase 1 — Foundation & Multi-tenancy: DONE (auth, JWT, tenant middleware, RBAC, Zod)
-- Phase 2 — Business Management: PARTIAL (business profile, services CRUD; opening hours pending)
-- Phase 3 — Staff Management: PARTIAL (staff CRUD + service links; working hours pending)
+- Phase 2 — Business Management: DONE (business profile, services CRUD, opening hours)
+- Phase 3 — Staff Management: DONE (staff CRUD + service links, working hours)
 - Phase 4 — Availability Engine: TODO
 - Phase 5 — Customer Management: TODO
 - Phase 6 — Booking Flow: TODO
@@ -24,4 +24,4 @@ Phase 0 (Bootstrap) and Phase 1 (Auth + Tenancy) implemented. Phase 2 partially 
 
 ## Next
 
-Implement availability engine, booking flow, customers, then notifications.
+Implement availability engine (Phase 4), then booking flow, customers, then notifications.

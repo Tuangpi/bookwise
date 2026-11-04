@@ -31,3 +31,19 @@ export async function remove(req: AuthRequest, res: Response, next: NextFunction
     res.json({ success: true, data: { ok: true } });
   } catch (e) { next(e); }
 }
+
+export async function getHours(req: AuthRequest, res: Response, next: NextFunction) {
+  try {
+    const params = (req as any).validated?.params ?? req.params;
+    const items = await svc.getStaffHours(req.businessId!, params.id);
+    res.json({ success: true, data: items });
+  } catch (e) { next(e); }
+}
+
+export async function setHours(req: AuthRequest, res: Response, next: NextFunction) {
+  try {
+    const { body, params } = (req as any).validated ?? { body: req.body, params: req.params };
+    const items = await svc.setStaffHours(req.businessId!, params.id, body.hours);
+    res.json({ success: true, data: items });
+  } catch (e) { next(e); }
+}

@@ -44,3 +44,36 @@ export async function deleteStaff(businessId: string, id: string) {
   if (!s) throw Errors.notFound('Staff not found');
   await prisma.staff.delete({ where: { id } });
 }
+
+export async function getStaffHours(businessId: string, staffId: string) {
+  const s = await prisma.staff.findFirst({ where: { id: staffId, businessId } });
+  if (!s) throw Errors.notFound('Staff not found');
+  return prisma.workingHours.findMany({
+    where: { businessId, staffId },
+    orderBy: { dayOfWeek: 'asc' },
+  });
+}
+
+export async function setStaffHours(businessId: string, staffId: string, hours: any[]) {
+  const s = await prisma.staff.findFirst({ where: { id: staffId, businessId } });
+  if (!s) throw Errors.notFound('Staff not found');
+  return prisma.$transaction(async (tx) => {
+    await tx.workingHours.deleteMany({ where: { businessId, staffId } });
+    if (hours.length) {
+      await tx.workingHours.createMany({
+        data: hours.map((h) => ({
+          businessId,
+          staffId,
+          dayOfWeek: h.dayOfWeek,
+          startTime: h.startTime,
+          endTime: h.endTime,
+          breaks: h.breaks ?? null,
+        })),
+      });
+    }
+    return tx.workingHours.findMany({
+      where: { businessId, staffId },
+      orderBy: { dayOfWeek: 'asc' },
+    });
+  });
+}
