@@ -17,11 +17,11 @@ Phases 0–8 implemented. Phase 9 (Dashboard & Reports) is next.
 - Phase 6 — Booking Flow: DONE (create, list, get, update status, cancel)
 - Phase 7 — Calendar: DONE (calendar/agenda views + availability-backed booking grid)
 - Phase 8 — Notifications: DONE (booking confirmations, reminders, IN_APP/EMAIL/SMS channels)
-- Phase 9 — Dashboard & Reports: TODO (basic UI shell)
+- Phase 9 — Dashboard & Reports: DONE (reports API: summary, revenue time series, staff utilization, booking status breakdown, popular services; dashboard UI with KPI cards, revenue chart, staff utilization, status & services tables)
 - Phase 10 — Subscription & Billing: TODO (Plan seed done)
 - Phase 11 — Admin Panel: TODO
 - Phase 12 — Polish & Launch: TODO
 
 ## Next
 
-Build Phase 9 Dashboard & Reports: booking analytics, staff utilization, revenue summary.
+Build Phase 10 Subscription & Billing.

@@ -121,3 +121,79 @@ export async function markNotificationSent(id: string) {
   const res = await api.patch(`/notifications/${id}/sent`);
   return res.data.data;
 }
+
+// Report APIs
+
+export interface DashboardSummary {
+  totalBookings: number;
+  totalRevenue: number;
+  confirmedCount: number;
+  completedCount: number;
+  cancelledCount: number;
+  noShowCount: number;
+  pendingCount: number;
+  completionRate: number;
+  averageRevenuePerBooking: number;
+  period: { start: string; end: string };
+}
+
+export interface RevenueDay {
+  date: string;
+  revenue: number;
+  bookings: number;
+}
+
+export interface RevenueOverTime {
+  series: RevenueDay[];
+  totalRevenue: number;
+}
+
+export interface StaffUtilization {
+  staffId: string;
+  staffName: string;
+  active: boolean;
+  bookingsCount: number;
+  revenue: number;
+  bookedMinutes: number;
+  workingMinutes: number;
+  utilizationPercent: number;
+}
+
+export interface StatusBreakdown {
+  status: string;
+  count: number;
+  revenue: number;
+}
+
+export interface PopularService {
+  serviceId: string;
+  name: string;
+  bookings: number;
+  revenue: number;
+  totalDurationMin: number;
+}
+
+export async function getDashboardSummary(start?: string, end?: string) {
+  const res = await api.get('/reports/summary', { params: { start, end } });
+  return res.data.data;
+}
+
+export async function getRevenueOverTime(start?: string, end?: string) {
+  const res = await api.get('/reports/revenue', { params: { start, end } });
+  return res.data.data;
+}
+
+export async function getStaffUtilizationReport(start?: string, end?: string) {
+  const res = await api.get('/reports/staff', { params: { start, end } });
+  return res.data.data;
+}
+
+export async function getStatusBreakdownReport(start?: string, end?: string) {
+  const res = await api.get('/reports/status', { params: { start, end } });
+  return res.data.data;
+}
+
+export async function getPopularServicesReport(start?: string, end?: string) {
+  const res = await api.get('/reports/services', { params: { start, end } });
+  return res.data.data;
+}
