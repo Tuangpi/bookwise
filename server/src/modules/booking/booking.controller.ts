@@ -1,6 +1,5 @@
 import { Response, NextFunction } from "express";
 import { AuthRequest } from "../../shared/middleware/auth";
-import { validate } from "../../shared/middleware/validate";
 import * as svc from "./booking.service";
 import { createBookingSchema, updateBookingSchema } from "./booking.schema";
 
@@ -9,13 +8,13 @@ export async function create(req: AuthRequest, res: Response, next: NextFunction
     const { body } = (req as any).validated ?? { body: req.body };
     const { serviceId, staffId, startAt, endAt, notes } = createBookingSchema.parse(body);
 
-    const customerId = req.user?.id; // authenticated user
+    const customerId = req.user!.id; // authenticated user
 
     const booking = await svc.createBooking(
       req.businessId!,
       customerId,
       serviceId,
-      staffId,
+      staffId ?? null,
       new Date(startAt),
       new Date(endAt),
       notes
@@ -69,6 +68,22 @@ export async function cancel(req: AuthRequest, res: Response, next: NextFunction
     const booking = await svc.cancelBooking(req.businessId!, bookingId);
 
     res.json({ success: true, data: booking });
+  } catch (e) {
+    next(e);
+  }
+}
+
+export async function calendar(req: AuthRequest, res: Response, next: NextFunction) {
+  try {
+    const { start, end } = (req as any).validated?.query ?? {};
+    const startAt = start ? new Date(start) : new Date();
+    startAt.setHours(0, 0, 0, 0);
+    const endAt = end ? new Date(end) : new Date(Date.now() + 6 * 24 * 60 * 60 * 1000);
+    endAt.setHours(23, 59, 59, 999);
+
+    const bookings = await svc.listBookingsInRange(req.businessId!, startAt, endAt);
+
+    res.json({ success: true, data: bookings });
   } catch (e) {
     next(e);
   }

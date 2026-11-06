@@ -15,3 +15,10 @@ export const updateBookingSchema = z.object({
 
 export type CreateBookingInput = z.infer<typeof createBookingSchema>;
 export type UpdateBookingInput = z.infer<typeof updateBookingSchema>;
+
+export const calendarQuerySchema = z.object({
+  query: z.object({
+    start: z.string().optional(),
+    end: z.string().optional(),
+  }),
+});

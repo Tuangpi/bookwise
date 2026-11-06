@@ -4,7 +4,7 @@
 
 ## Status
 
-Phase 0 (Bootstrap) and Phase 1 (Auth + Tenancy) implemented. Phase 2 partially (business profile, services, staff). See below.
+Phases 0–8 implemented. Phase 9 (Dashboard & Reports) is next.
 
 ## Phases
 
@@ -13,10 +13,10 @@ Phase 0 (Bootstrap) and Phase 1 (Auth + Tenancy) implemented. Phase 2 partially 
 - Phase 2 — Business Management: DONE (business profile, services CRUD, opening hours)
 - Phase 3 — Staff Management: DONE (staff CRUD + service links, working hours)
 - Phase 4 — Availability Engine: DONE (compute slots from opening/working hours, services, staff-service links, existing bookings, and time-offs)
-- Phase 5 — Customer Management: TODO
-- Phase 6 — Booking Flow: **DONE**
-- Phase 7 — Calendar: TODO
-- Phase 8 — Notifications: TODO
+- Phase 5 — Customer Management: DONE (customer CRUD)
+- Phase 6 — Booking Flow: DONE (create, list, get, update status, cancel)
+- Phase 7 — Calendar: DONE (calendar/agenda views + availability-backed booking grid)
+- Phase 8 — Notifications: DONE (booking confirmations, reminders, IN_APP/EMAIL/SMS channels)
 - Phase 9 — Dashboard & Reports: TODO (basic UI shell)
 - Phase 10 — Subscription & Billing: TODO (Plan seed done)
 - Phase 11 — Admin Panel: TODO
@@ -24,4 +24,4 @@ Phase 0 (Bootstrap) and Phase 1 (Auth + Tenancy) implemented. Phase 2 partially 
 
 ## Next
 
-Implement availability engine (Phase 4), then booking flow, customers, then notifications.
+Build Phase 9 Dashboard & Reports: booking analytics, staff utilization, revenue summary.

@@ -4,6 +4,7 @@ import { validate } from '../../shared/middleware/validate';
 import {
   createBookingSchema,
   updateBookingSchema,
+  calendarQuerySchema,
 } from './booking.schema';
 import {
   create,
@@ -11,6 +12,7 @@ import {
   get,
   update,
   cancel,
+  calendar,
 } from './booking.controller';
 
 export const bookingRouter = Router();
@@ -26,6 +28,13 @@ bookingRouter.post(
 
 // GET /api/v1/bookings - List bookings for the business
 bookingRouter.get('/', list);
+
+// GET /api/v1/bookings/calendar - List bookings within a date range for calendar/agenda views
+bookingRouter.get(
+  '/calendar',
+  validate(calendarQuerySchema),
+  calendar
+);
 
 // GET /api/v1/bookings/:id - Get a specific booking
 bookingRouter.get('/:id', get);

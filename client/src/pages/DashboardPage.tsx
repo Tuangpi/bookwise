@@ -14,6 +14,8 @@ export default function DashboardPage() {
         <p className="text-sm text-gray-500 mb-6">Role: {user?.role}</p>
         <div className="grid grid-cols-2 gap-4">
           <Link to="/services" className="bg-white p-6 rounded shadow hover:shadow-md">Services</Link>
+          <Link to="/calendar" className="bg-white p-6 rounded shadow hover:shadow-md">Calendar</Link>
+          <Link to="/notifications" className="bg-white p-6 rounded shadow hover:shadow-md">Notifications</Link>
         </div>
       </div>
     </div>

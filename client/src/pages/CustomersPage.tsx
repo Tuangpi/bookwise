@@ -1,27 +1,23 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { listCustomers, createCustomer, updateCustomer, deleteCustomer, type Customer, type CreateCustomerData, type UpdateCustomerData } from '../lib/api';
+import { listCustomers, createCustomer, updateCustomer, deleteCustomer, type Customer } from '../lib/api';
 
 export default function CustomersPage() {
   const { user } = useAuth();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [form, setForm] = useState<{ name: string; email?: string; phone?: string; notes?: string; tags: string[] }>({ name: '', email: '', phone: '', notes: '', tags: [] });
   const [editing, setEditing] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchCustomers();
   }, [user?.id]);
 
   const fetchCustomers = async () => {
-    setLoading(true);
     try {
       const data = await listCustomers();
       setCustomers(data);
     } catch (e) {
       console.error('Failed to fetch customers', e);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -37,6 +33,15 @@ export default function CustomersPage() {
     fetchCustomers();
   };
 
+  const handleEdit = (id: string, customer: Customer) => {
+    setForm({
+      name: customer.name,
+      email: customer.email || '',
+      phone: customer.phone || '',
+      notes: customer.notes || '',
+      tags: customer.tags,
+    });
+    setEditing(id);
   };
 
   return (

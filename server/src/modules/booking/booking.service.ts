@@ -1,14 +1,15 @@
 import { prisma } from '../../shared/db';
 import { Errors } from '../../shared/errors';
-import { availabilityService } from '../availability/availability.service';
-import { createBookingSchema, updateBookingSchema } from './booking.schema';
+import { listAvailability } from '../availability/availability.service';
+import type { UpdateBookingInput } from './booking.schema';
+import { createBookingNotification } from '../notification/notification.service';
 
 export interface Booking {
   id: string;
   businessId: string;
   customerId: string;
   serviceId: string;
-  staffId: string | null;
+  staffId: string;
   startAt: Date;
   endAt: Date;
   status: string;
@@ -36,7 +37,6 @@ export async function createBooking(
   }
 
   // Validate staff if provided
-  let staff = null;
   if (staffId) {
     const existingStaff = await prisma.staff.findFirst({
       where: { id: staffId, businessId },
@@ -44,7 +44,6 @@ export async function createBooking(
     if (!existingStaff) {
       throw Errors.notFound('Staff not found or not associated with this business');
     }
-    staff = existingStaff;
   }
 
   // If no staff specified, try to auto-detect from service links
@@ -60,13 +59,15 @@ export async function createBooking(
     }
   }
 
-  // Check availability if staff is specified
-  if (finalStaffId) {
-    const availability = await availabilityService.listAvailability(
-      businessId,
-      { serviceId, date: startAt.toISOString().split('T')[0] },
-      finalStaffId
-    );
+  if (!finalStaffId) {
+    throw Errors.conflict('No staff available for this service');
+  }
+
+  const availability = await listAvailability(businessId, {
+    serviceId,
+    date: startAt.toISOString().split('T')[0],
+    staffId: finalStaffId,
+  });
 
     const staffAvailable = availability.staff.some((s) =>
       s.slots.some(
@@ -78,7 +79,6 @@ export async function createBooking(
     if (!staffAvailable) {
       throw Errors.conflict('Selected time slot is not available for the specified staff');
     }
-  }
 
   // Calculate price based on service price
   const price = service.price;
@@ -103,7 +103,25 @@ export async function createBooking(
     },
   });
 
-  return booking as Booking;
+  const result: Booking = {
+    id: booking.id,
+    businessId: booking.businessId,
+    customerId: booking.customerId,
+    serviceId: booking.serviceId,
+    staffId: booking.staffId,
+    startAt: booking.startAt,
+    endAt: booking.endAt,
+    status: booking.status,
+    notes: booking.notes,
+    price: booking.price.toNumber(),
+    createdAt: booking.createdAt,
+    updatedAt: booking.updatedAt,
+  };
+
+  // Fire-and-forget notification for the new booking
+  void createBookingNotification(booking.businessId, result, 'BOOKING_CREATED').catch(() => {});
+
+  return result;
 }
 
 export async function listBookings(
@@ -158,13 +176,31 @@ export async function updateBooking(
         throw Errors.notFound('Booking not found');
     }
 
-    return prisma.booking.update({
+    const previousStatus = booking.status;
+
+    const updated = await prisma.booking.update({
         where: { id: bookingId },
         data: {
             status: data.status,
             notes: data.notes,
         },
     });
+
+    // Notify when booking is confirmed
+    if (data.status && data.status !== previousStatus && data.status === 'CONFIRMED') {
+      void createBookingNotification(businessId, {
+        id: updated.id,
+        customerId: updated.customerId,
+        serviceId: updated.serviceId,
+        staffId: updated.staffId,
+        startAt: updated.startAt,
+        endAt: updated.endAt,
+        status: updated.status,
+        price: updated.price.toNumber(),
+      }, 'BOOKING_CONFIRMED').catch(() => {});
+    }
+
+    return updated;
 }
 
 export async function cancelBooking(
@@ -183,3 +219,22 @@ export async function cancelBooking(
             data: { status: 'CANCELLED' },
         });
     }
+
+export async function listBookingsInRange(
+  businessId: string,
+  startAt: Date,
+  endAt: Date
+) {
+  return prisma.booking.findMany({
+    where: {
+      businessId,
+      startAt: { gte: startAt, lte: endAt },
+    },
+    include: {
+      customer: { select: { id: true, name: true, email: true } },
+      service: { select: { id: true, name: true, durationMin: true, price: true } },
+      staff: { select: { id: true, name: true } },
+    },
+    orderBy: { startAt: 'asc' },
+  });
+}

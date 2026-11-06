@@ -11,6 +11,7 @@ import { staffRouter } from './modules/staff/staff.routes';
 import { availabilityRouter } from './modules/availability/availability.routes';
 import { bookingRouter } from './modules/booking/booking.routes';
 import { customerRouter } from './modules/customer/customer.routes';
+import { notificationRouter } from './modules/notification/notification.routes';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/api/v1/staff', staffRouter);
 app.use('/api/v1/availability', availabilityRouter);
 app.use('/api/v1/bookings', bookingRouter);
 app.use('/api/v1/customers', customerRouter);
+app.use('/api/v1/notifications', notificationRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Route not found' } });
