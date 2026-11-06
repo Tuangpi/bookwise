@@ -4,7 +4,7 @@
 
 ## Status
 
-Phases 0–8 implemented. Phase 9 (Dashboard & Reports) is next.
+Phases 0–12 implemented. Phase 13 (Post-Launch Improvements) is next.
 
 ## Phases
 
@@ -18,10 +18,11 @@ Phases 0–8 implemented. Phase 9 (Dashboard & Reports) is next.
 - Phase 7 — Calendar: DONE (calendar/agenda views + availability-backed booking grid)
 - Phase 8 — Notifications: DONE (booking confirmations, reminders, IN_APP/EMAIL/SMS channels)
 - Phase 9 — Dashboard & Reports: DONE (reports API: summary, revenue time series, staff utilization, booking status breakdown, popular services; dashboard UI with KPI cards, revenue chart, staff utilization, status & services tables)
-- Phase 10 — Subscription & Billing: TODO (Plan seed done)
-- Phase 11 — Admin Panel: TODO
-- Phase 12 — Polish & Launch: TODO
+- Phase 10 — Subscription & Billing: DONE (Stripe integration, plan management, subscription status)
+- Phase 11 — Admin Panel: DONE (platform admin: business management, user role management)
+- Phase 12 — Polish & Launch: DONE (UI/UX refinements, API improvements, deployment preparation)
+- Phase 13 — Post-Launch Improvements: TODO
 
 ## Next
 
-Build Phase 10 Subscription & Billing.
+Monitor and collect user feedback for Phase 13 improvements.

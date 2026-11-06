@@ -39,6 +39,13 @@ export function requireTenant(req: AuthRequest, _res: Response, next: NextFuncti
   next();
 }
 
+export function requirePlatformAdmin(req: AuthRequest, _res: Response, next: NextFunction) {
+  if (req.user?.role !== 'PLATFORM_ADMIN') {
+    return next(Errors.forbidden('Platform admin access required'));
+  }
+  next();
+}
+
 export async function loadBusinessContext(_req: AuthRequest, _res: Response, next: NextFunction) {
   // For routes that need businessId from a param (e.g. public booking by slug), handled separately.
   next();

@@ -13,6 +13,8 @@ import { bookingRouter } from './modules/booking/booking.routes';
 import { customerRouter } from './modules/customer/customer.routes';
 import { notificationRouter } from './modules/notification/notification.routes';
 import { reportsRouter } from './modules/reports/reports.routes';
+import { subscriptionRouter } from './modules/subscription/subscription.routes';
+import { adminRouter } from './modules/admin/admin.routes';
 
 const app = express();
 
@@ -34,6 +36,8 @@ app.use('/api/v1/bookings', bookingRouter);
 app.use('/api/v1/customers', customerRouter);
 app.use('/api/v1/notifications', notificationRouter);
 app.use('/api/v1/reports', reportsRouter);
+app.use('/api/v1/subscription', subscriptionRouter);
+app.use('/api/v1/admin', adminRouter);
 
 app.use((_req, res) => {
   res.status(404).json({ success: false, error: { code: 'NOT_FOUND', message: 'Route not found' } });
